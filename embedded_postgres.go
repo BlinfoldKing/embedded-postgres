@@ -210,6 +210,13 @@ func startPostgres(ep *EmbeddedPostgres) error {
 	postgresProcess.Stdout = ep.syncedLogger.file
 	postgresProcess.Stderr = ep.syncedLogger.file
 
+	if ep.config.runAsUser != "" {
+		err := setRunAs(postgresProcess, ep.config.runAsUser)
+		if err != nil {
+			return err
+		}
+	}
+
 	if err := postgresProcess.Run(); err != nil {
 		_ = ep.syncedLogger.flush()
 		logContent, _ := readLogsOrTimeout(ep.syncedLogger.file)
@@ -226,6 +233,13 @@ func stopPostgres(ep *EmbeddedPostgres) error {
 		"-D", ep.config.dataPath)
 	postgresProcess.Stderr = ep.syncedLogger.file
 	postgresProcess.Stdout = ep.syncedLogger.file
+
+	if ep.config.runAsUser != "" {
+		err := setRunAs(postgresProcess, ep.config.runAsUser)
+		if err != nil {
+			return err
+		}
+	}
 
 	if err := postgresProcess.Run(); err != nil {
 		return err
