@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	embeddedpostgres "github.com/fergusstrange/embedded-postgres"
+	embeddedpostgres "github.com/blinfoldking/embedded-postgres"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
