@@ -10,6 +10,7 @@ import (
 // Config maintains the runtime configuration for the Postgres process to be created.
 type Config struct {
 	version             PostgresVersion
+	runAsUser           string
 	port                uint32
 	database            string
 	username            string
@@ -44,6 +45,12 @@ func DefaultConfig() Config {
 		logger:              os.Stdout,
 		binaryRepositoryURL: "https://repo1.maven.org/maven2",
 	}
+}
+
+// RunAsUser set linux user to run as
+func (c Config) RunAsUser(runAsUser string) Config {
+	c.runAsUser = runAsUser
+	return c
 }
 
 // Version will set the Postgres binary version.
